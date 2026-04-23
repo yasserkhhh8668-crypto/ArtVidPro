@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PixelCraft Studio | تواصل معنا</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .page-hero { background:linear-gradient(135deg,var(--primary-dark),var(--primary)); padding:120px 0 80px; text-align:center; color:white; position:relative; overflow:hidden; }
+    .page-hero::before { content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%234f8ef7' fill-opacity='0.07'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+    .page-hero h1 { color:white; margin-bottom:16px; position:relative; }
+    .page-hero p  { color:rgba(255,255,255,0.75); font-size:1.05rem; max-width:520px; margin:0 auto; position:relative; }
+
+    .contact-grid { display:grid; grid-template-columns:1fr 1.6fr; gap:48px; align-items:start; }
+    @media(max-width:900px){ .contact-grid { grid-template-columns:1fr; } }
+
+    .contact-info-card { background:linear-gradient(135deg,var(--primary),var(--primary-light)); border-radius:var(--radius-xl); padding:40px; color:white; position:sticky; top:100px; }
+    .contact-info-card h3 { color:white; margin-bottom:8px; }
+    .contact-info-card p  { color:rgba(255,255,255,0.7); font-size:0.9rem; margin-bottom:32px; }
+
+    .contact-info-item { display:flex; gap:16px; margin-bottom:24px; align-items:flex-start; }
+    .contact-info-icon { width:48px; height:48px; border-radius:var(--radius-md); background:rgba(255,255,255,0.12); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+    .contact-info-text h4 { color:white; font-size:0.9rem; margin-bottom:4px; }
+    .contact-info-text p  { color:rgba(255,255,255,0.65); font-size:0.85rem; margin:0; }
+
+    .hours-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:24px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.1); }
+    .hour-item  { font-size:0.82rem; color:rgba(255,255,255,0.65); }
+    .hour-item span { display:block; color:white; font-weight:600; font-size:0.85rem; }
+
+    .contact-form-card { background:white; border-radius:var(--radius-xl); padding:40px; box-shadow:var(--shadow-lg); }
+    .contact-form-card h3 { margin-bottom:6px; }
+    .contact-form-card > p { color:var(--gray-500); font-size:0.9rem; margin-bottom:28px; }
+
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media(max-width:500px){ .form-row { grid-template-columns:1fr; } }
+
+    .service-tags { display:flex; flex-wrap:wrap; gap:8px; }
+    .service-tag { padding:6px 16px; border-radius:var(--radius-full); border:2px solid var(--gray-200); font-size:0.82rem; font-weight:600; color:var(--gray-600); cursor:pointer; transition:var(--transition); }
+    .service-tag.sel { background:var(--accent); color:white; border-color:var(--accent); }
+
+    .map-container { background:linear-gradient(135deg,var(--primary-dark),var(--primary)); border-radius:var(--radius-lg); height:200px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:0.9rem; margin-top:20px; }
+  </style>
+</head>
+<body>
+<nav class="navbar" id="navbar"></nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="badge" style="background:rgba(79,142,247,0.2);border-color:rgba(79,142,247,0.4);color:var(--accent-light);margin-bottom:16px">
+      <i class="fas fa-envelope"></i> تواصل معنا
+    </div>
+    <h1>نحن هنا لمساعدتك</h1>
+    <p>هل لديك سؤال أو فكرة مشروع؟ تواصل معنا وسيرد عليك فريقنا خلال 24 ساعة</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- Info Side -->
+      <div class="contact-info-card">
+        <h3>معلومات التواصل</h3>
+        <p>نسعد بالتواصل معك في أي وقت عبر القنوات التالية</p>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contact-info-text">
+            <h4>البريد الإلكتروني</h4>
+            <p>hello@pixelcraft.studio</p>
+            <p>support@pixelcraft.studio</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="fab fa-whatsapp"></i></div>
+          <div class="contact-info-text">
+            <h4>واتساب</h4>
+            <p dir="ltr">+966 50 123 4567</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="contact-info-text">
+            <h4>الموقع</h4>
+            <p>الرياض، المملكة العربية السعودية</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="fas fa-clock"></i></div>
+          <div class="contact-info-text">
+            <h4>ساعات العمل</h4>
+            <p>الأحد – الخميس: 9ص – 6م</p>
+          </div>
+        </div>
+
+        <div class="hours-grid">
+          <div class="hour-item"><span>الأحد</span>9:00 – 18:00</div>
+          <div class="hour-item"><span>الاثنين</span>9:00 – 18:00</div>
+          <div class="hour-item"><span>الثلاثاء</span>9:00 – 18:00</div>
+          <div class="hour-item"><span>الأربعاء</span>9:00 – 18:00</div>
+          <div class="hour-item"><span>الخميس</span>9:00 – 18:00</div>
+          <div class="hour-item" style="color:rgba(255,255,255,0.3)"><span style="color:rgba(255,255,255,0.3)">الجمعة – السبت</span>إجازة</div>
+        </div>
+
+        <div class="map-container">
+          <div style="text-align:center">
+            <i class="fas fa-map-marker-alt" style="font-size:2rem;display:block;margin-bottom:8px;color:var(--accent-light)"></i>
+            الرياض، المملكة العربية السعودية
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Side -->
+      <div class="contact-form-card">
+        <h3>أرسل لنا رسالة</h3>
+        <p>سيرد عليك فريقنا خلال 24 ساعة من استلام رسالتك</p>
+
+        <div id="contactAlert" class="hidden"></div>
+
+        <form id="contactForm" onsubmit="submitContact(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-user" style="color:var(--accent);margin-left:6px"></i> الاسم الكامل *</label>
+              <input type="text" class="form-control" id="cName" placeholder="أحمد محمد" required/>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-envelope" style="color:var(--accent);margin-left:6px"></i> البريد الإلكتروني *</label>
+              <input type="email" class="form-control" id="cEmail" placeholder="your@email.com" required style="direction:ltr;text-align:right"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-phone" style="color:var(--accent);margin-left:6px"></i> رقم الهاتف</label>
+              <input type="tel" class="form-control" id="cPhone" placeholder="+966 5X XXX XXXX" style="direction:ltr"/>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-tag" style="color:var(--accent);margin-left:6px"></i> موضوع الرسالة</label>
+              <select class="form-control" id="cSubject">
+                <option value="">اختر الموضوع...</option>
+                <option value="service_inquiry">استفسار عن خدمة</option>
+                <option value="project_quote">طلب عرض سعر</option>
+                <option value="existing_order">متابعة طلب حالي</option>
+                <option value="partnership">شراكة تجارية</option>
+                <option value="other">أخرى</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>الخدمة التي تهتم بها</label>
+            <div class="service-tags" id="serviceTags">
+              <span class="service-tag" onclick="toggleTag(this)">تصميم الجرافيك</span>
+              <span class="service-tag" onclick="toggleTag(this)">UI/UX</span>
+              <span class="service-tag" onclick="toggleTag(this)">الهوية البصرية</span>
+              <span class="service-tag" onclick="toggleTag(this)">تصميم الشعار</span>
+              <span class="service-tag" onclick="toggleTag(this)">السوشيال ميديا</span>
+              <span class="service-tag" onclick="toggleTag(this)">أخرى</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-comment" style="color:var(--accent);margin-left:6px"></i> رسالتك *</label>
+            <textarea class="form-control" id="cMessage" rows="5" placeholder="اكتب رسالتك هنا... صف لنا مشروعك وأفكارك بالتفصيل." required style="min-height:150px"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-dollar-sign" style="color:var(--accent);margin-left:6px"></i> الميزانية التقريبية</label>
+            <select class="form-control" id="cBudget">
+              <option value="">اختر نطاق الميزانية...</option>
+              <option value="100-300">$100 – $300</option>
+              <option value="300-500">$300 – $500</option>
+              <option value="500-1000">$500 – $1,000</option>
+              <option value="1000-3000">$1,000 – $3,000</option>
+              <option value="3000+">أكثر من $3,000</option>
+            </select>
+          </div>
+
+          <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:24px">
+            <input type="checkbox" id="cNewsletter" style="width:16px;height:16px;accent-color:var(--accent);margin-top:3px;flex-shrink:0"/>
+            <label for="cNewsletter" style="font-size:0.85rem;color:var(--gray-600);margin:0;line-height:1.5">
+              أرغب في الاشتراك في النشرة الإخبارية لتلقّي أحدث العروض والأخبار
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block" id="submitBtn">
+            <i class="fas fa-paper-plane"></i> إرسال الرسالة
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quick Contact Buttons -->
+<section style="background:var(--gray-50);padding:40px 0">
+  <div class="container" style="text-align:center">
+    <h3 style="margin-bottom:24px;color:var(--primary)">أو تواصل معنا مباشرة</h3>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <a href="https://wa.me/966501234567" target="_blank" class="btn btn-lg" style="background:#25d366;color:white;border-color:#25d366">
+        <i class="fab fa-whatsapp"></i> واتساب مباشر
+      </a>
+      <a href="mailto:hello@pixelcraft.studio" class="btn btn-secondary btn-lg">
+        <i class="fas fa-envelope"></i> راسلنا بالبريد
+      </a>
+      <a href="https://calendly.com" target="_blank" class="btn btn-primary btn-lg">
+        <i class="fas fa-calendar-check"></i> احجز موعداً مجانياً
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" id="footer"></footer>
+
+<script src="js/app.js"></script>
+<script>
+  function toggleTag(el) {
+    el.classList.toggle('sel');
+  }
+
+  function showAlert(msg, type = 'success') {
+    const el = document.getElementById('contactAlert');
+    const icons = { success: 'fa-check-circle', danger: 'fa-times-circle' };
+    el.className = `alert alert-${type}`;
+    el.innerHTML = `<i class="fas ${icons[type] || 'fa-info-circle'}"></i> ${msg}`;
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  async function submitContact(e) {
+    e.preventDefault();
+    const name    = document.getElementById('cName').value.trim();
+    const email   = document.getElementById('cEmail').value.trim();
+    const phone   = document.getElementById('cPhone').value.trim();
+    const subject = document.getElementById('cSubject').value;
+    const message = document.getElementById('cMessage').value.trim();
+    const budget  = document.getElementById('cBudget').value;
+    const newsletter = document.getElementById('cNewsletter').checked;
+    const selectedTags = [...document.querySelectorAll('.service-tag.sel')].map(t => t.textContent);
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ الإرسال...';
+
+    try {
+      // Save lead to DB
+      await API.post('leads', {
+        name, email, phone,
+        message: `${message}\n\nالخدمات: ${selectedTags.join(', ')}\nالميزانية: ${budget}`,
+        service_interest: selectedTags.join(', ') || subject,
+        source: 'contact',
+        is_contacted: false
+      });
+
+      // Newsletter signup
+      if (newsletter) {
+        await API.post('leads', { name, email, source: 'newsletter', is_contacted: false });
+      }
+
+      // Webhook
+      const webhookUrl = localStorage.getItem('webhook_url');
+      if (webhookUrl) {
+        await triggerWebhook(webhookUrl, {
+          type: 'new_contact_message', name, email, phone, subject, message, budget, services: selectedTags
+        });
+      }
+
+      showAlert('✅ تم إرسال رسالتك بنجاح! سيتواصل معك فريقنا خلال 24 ساعة.');
+      document.getElementById('contactForm').reset();
+      document.querySelectorAll('.service-tag').forEach(t => t.classList.remove('sel'));
+    } catch(err) {
+      showAlert('❌ حدث خطأ أثناء الإرسال. الرجاء المحاولة مرة أخرى أو التواصل مباشرة.', 'danger');
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال الرسالة';
+  }
+</script>
+</body>
+</html>

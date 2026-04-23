@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PixelCraft Studio | طلب خدمة</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .page-hero { background:linear-gradient(135deg,var(--primary-dark),var(--primary)); padding:120px 0 80px; text-align:center; color:white; position:relative; overflow:hidden; }
+    .page-hero::before { content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%234f8ef7' fill-opacity='0.07'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+    .page-hero h1 { color:white; margin-bottom:16px; position:relative; }
+    .page-hero p  { color:rgba(255,255,255,0.75); font-size:1.05rem; max-width:520px; margin:0 auto; position:relative; }
+
+    .order-grid { display:grid; grid-template-columns:1.6fr 1fr; gap:40px; align-items:start; }
+    @media(max-width:900px){ .order-grid { grid-template-columns:1fr; } }
+
+    .order-form-card { background:white; border-radius:var(--radius-xl); padding:40px; box-shadow:var(--shadow-lg); }
+    .order-form-card h3 { margin-bottom:6px; }
+    .order-form-card > p { color:var(--gray-500); font-size:0.9rem; margin-bottom:28px; }
+
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media(max-width:500px){ .form-row { grid-template-columns:1fr; } }
+
+    /* Package Selector */
+    .pkg-selector { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:8px; }
+    @media(max-width:500px){ .pkg-selector { grid-template-columns:1fr; } }
+    .pkg-option { border:2px solid var(--gray-200); border-radius:var(--radius-md); padding:16px; text-align:center; cursor:pointer; transition:var(--transition); position:relative; }
+    .pkg-option:hover { border-color:var(--accent); }
+    .pkg-option.sel  { border-color:var(--accent); background:linear-gradient(135deg,var(--primary),var(--primary-light)); color:white; }
+    .pkg-option.sel h4, .pkg-option.sel .pkg-price { color:white !important; }
+    .pkg-option.sel p { color:rgba(255,255,255,0.7) !important; }
+    .pkg-popular-tag { position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:var(--accent); color:white; padding:2px 10px; border-radius:var(--radius-full); font-size:0.7rem; font-weight:700; white-space:nowrap; }
+    .pkg-option h4  { font-size:0.9rem; margin-bottom:4px; }
+    .pkg-option .pkg-price { font-size:1.5rem; font-weight:800; color:var(--accent); }
+    .pkg-option p   { font-size:0.75rem; color:var(--gray-500); margin:0; }
+
+    /* Payment Options */
+    .payment-btns { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    @media(max-width:400px){ .payment-btns { grid-template-columns:1fr; } }
+    .payment-btn { border:2px solid var(--gray-200); border-radius:var(--radius-md); padding:14px 16px; display:flex; align-items:center; gap:10px; cursor:pointer; transition:var(--transition); background:white; font-family:inherit; }
+    .payment-btn:hover { border-color:var(--accent); }
+    .payment-btn.sel { border-color:var(--accent); background:rgba(79,142,247,0.05); }
+    .payment-btn .pay-icon { width:40px; height:28px; object-fit:contain; }
+    .payment-btn strong { font-size:0.9rem; color:var(--primary); }
+    .payment-btn small  { font-size:0.75rem; color:var(--gray-400); display:block; }
+
+    /* Summary Card */
+    .summary-card { background:white; border-radius:var(--radius-xl); padding:32px; box-shadow:var(--shadow-lg); position:sticky; top:100px; }
+    .summary-card h3 { margin-bottom:20px; }
+    .summary-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--gray-100); font-size:0.9rem; }
+    .summary-row:last-of-type { border-bottom:none; }
+    .summary-row.total { font-weight:700; font-size:1.05rem; color:var(--primary); padding-top:16px; border-top:2px solid var(--gray-200); margin-top:8px; }
+    .summary-row .val  { font-weight:600; color:var(--accent); }
+    .trust-badges { display:flex; flex-direction:column; gap:10px; margin-top:20px; padding-top:20px; border-top:1px solid var(--gray-100); }
+    .trust-badge { display:flex; align-items:center; gap:10px; font-size:0.82rem; color:var(--gray-600); }
+    .trust-badge i { color:var(--success); font-size:1rem; }
+
+    /* Step Indicator */
+    .order-steps { display:flex; gap:0; margin-bottom:32px; border-radius:var(--radius-md); overflow:hidden; border:1px solid var(--gray-200); }
+    .order-step { flex:1; padding:12px 8px; text-align:center; font-size:0.82rem; font-weight:600; color:var(--gray-500); background:var(--gray-50); border-left:1px solid var(--gray-200); cursor:pointer; transition:var(--transition); }
+    .order-step:first-child { border-left:none; }
+    body.lang-en .order-step { border-left:none; border-right:1px solid var(--gray-200); }
+    body.lang-en .order-step:first-child { border-right:none; }
+    .order-step.active { background:var(--accent); color:white; }
+    .order-step.done   { background:var(--success); color:white; }
+
+    .step-panel { display:none; }
+    .step-panel.active { display:block; }
+
+    /* Success State */
+    .success-state { text-align:center; padding:40px 20px; }
+    .success-icon  { width:80px; height:80px; background:rgba(34,197,94,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2.5rem; color:var(--success); margin:0 auto 24px; }
+  </style>
+</head>
+<body>
+<nav class="navbar" id="navbar"></nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="badge" style="background:rgba(79,142,247,0.2);border-color:rgba(79,142,247,0.4);color:var(--accent-light);margin-bottom:16px">
+      <i class="fas fa-shopping-cart"></i> اطلب خدمة
+    </div>
+    <h1>ابدأ مشروعك الآن</h1>
+    <p>أكمل الطلب في 3 خطوات بسيطة واحصل على تصميمك الاحترافي</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <!-- Step Indicator -->
+    <div class="order-steps" style="max-width:600px;margin:0 auto 40px">
+      <div class="order-step active" id="stepTab1" onclick="goToStep(1)">
+        <i class="fas fa-list-alt"></i> ١. تفاصيل الطلب
+      </div>
+      <div class="order-step" id="stepTab2">
+        <i class="fas fa-credit-card"></i> ٢. الدفع
+      </div>
+      <div class="order-step" id="stepTab3">
+        <i class="fas fa-check-circle"></i> ٣. التأكيد
+      </div>
+    </div>
+
+    <div class="order-grid">
+
+      <!-- Left: Form -->
+      <div>
+        <!-- Step 1 -->
+        <div class="step-panel active" id="panel1">
+          <div class="order-form-card">
+            <h3>تفاصيل طلبك</h3>
+            <p>أخبرنا عن مشروعك وسنقدم لك أفضل النتائج</p>
+
+            <div id="orderAlert" class="hidden"></div>
+
+            <form id="orderForm1" onsubmit="goToStep2(event)">
+              <!-- If not logged in, show name/email fields -->
+              <div id="guestFields">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>الاسم الكامل *</label>
+                    <input type="text" class="form-control" id="oName" placeholder="اسمك الكريم"/>
+                  </div>
+                  <div class="form-group">
+                    <label>البريد الإلكتروني *</label>
+                    <input type="email" class="form-control" id="oEmail" placeholder="your@email.com" style="direction:ltr;text-align:right"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>رقم الهاتف (واتساب)</label>
+                  <input type="tel" class="form-control" id="oPhone" placeholder="+966 5X XXX XXXX" style="direction:ltr"/>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label><i class="fas fa-magic" style="color:var(--accent);margin-left:6px"></i> الخدمة المطلوبة *</label>
+                <select class="form-control" id="oService" onchange="updateServicePrices()" required>
+                  <option value="">اختر الخدمة...</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label><i class="fas fa-box" style="color:var(--accent);margin-left:6px"></i> الباقة *</label>
+                <div class="pkg-selector" id="pkgSelector">
+                  <div class="pkg-option sel" onclick="selectPkg('basic',this)">
+                    <h4>أساسية</h4>
+                    <div class="pkg-price" id="priceBasic">$199</div>
+                    <p>مراجعتان</p>
+                  </div>
+                  <div class="pkg-option" onclick="selectPkg('standard',this)">
+                    <div class="pkg-popular-tag">⭐ الأكثر طلباً</div>
+                    <h4>قياسية</h4>
+                    <div class="pkg-price" id="priceStandard">$399</div>
+                    <p>5 مراجعات</p>
+                  </div>
+                  <div class="pkg-option" onclick="selectPkg('premium',this)">
+                    <h4>💎 متقدمة</h4>
+                    <div class="pkg-price" id="pricePremium">$799</div>
+                    <p>غير محدودة</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label><i class="fas fa-align-right" style="color:var(--accent);margin-left:6px"></i> وصف المشروع *</label>
+                <textarea class="form-control" id="oDesc" rows="5" placeholder="اشرح لنا مشروعك بالتفصيل: نوع النشاط، الجمهور المستهدف، الألوان المفضلة، أي تفاصيل أخرى مهمة..." required style="min-height:140px"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>ملاحظات إضافية</label>
+                <textarea class="form-control" id="oNotes" rows="3" placeholder="أي تفاصيل إضافية تريد إضافتها..." style="min-height:90px"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-lg btn-block">
+                المتابعة للدفع <i class="fas fa-arrow-left"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Step 2: Payment -->
+        <div class="step-panel" id="panel2">
+          <div class="order-form-card">
+            <h3>اختر طريقة الدفع</h3>
+            <p>نستخدم أفضل بوابات الدفع الآمنة لحماية معاملاتك</p>
+
+            <div class="payment-btns" id="paymentBtns">
+              <button class="payment-btn sel" onclick="selectPayment('paypal',this)">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" class="pay-icon" alt="PayPal"/>
+                <div><strong>PayPal</strong><small>الأكثر أماناً</small></div>
+              </button>
+              <button class="payment-btn" onclick="selectPayment('stripe',this)">
+                <svg viewBox="0 0 60 25" class="pay-icon" style="height:28px"><path fill="#635bff" d="M59.64 14.28h-8.06c.19 1.93 1.6 2.55 3.2 2.55 1.64 0 2.96-.37 4.05-.95v3.32a8.33 8.33 0 0 1-4.56 1.1c-4.01 0-6.83-2.5-6.83-7.48 0-4.19 2.39-7.52 6.3-7.52 3.92 0 5.96 3.28 5.96 7.5l-.06 1.48zm-5.92-5.62c-1.03 0-2.17.73-2.17 2.58h4.25c0-1.85-1.07-2.58-2.08-2.58zM40.95 20.3c-1.44 0-2.32-.6-2.9-1.04l-.02 4.63-4.44.94V5.27h3.94l.12 1.07c.6-.7 1.71-1.44 3.36-1.44 3.06 0 5.3 2.99 5.3 7.48 0 5.21-2.7 7.92-5.36 7.92zm-.94-11.64c-.6 0-1.13.28-1.52.74l.03 5.87c.38.46.91.72 1.49.72 1.56 0 2.34-1.56 2.34-3.68 0-2.13-.78-3.65-2.34-3.65zM28.24 5.27h4.43V20h-4.43V5.27zm0-4.7L32.67 0v3.56l-4.43.94V.57zM23.95 20l-.18-1.15c-.58.85-1.7 1.48-3.15 1.48-3.31 0-5.15-2.44-5.15-5.52 0-3.76 2.76-5.19 5.56-5.19 1.04 0 2.11.37 2.73.78V8.4c0-1.03-.46-1.98-2.01-1.98-1.13 0-2.18.38-3.27.95l-.01-3.33a11.64 11.64 0 0 1 4.2-.74c3.93 0 5.55 2.12 5.55 5.38V20h-4.27zM22 13.9c-.5 0-1.6.28-1.6 1.92 0 1.16.55 1.72 1.35 1.72.48 0 .98-.28 1.25-.7v-2.72A2.75 2.75 0 0 0 22 13.9zM11.27 20L7 5.27h4.56l2.38 9.8 2.37-9.8H20L15.56 20h-4.29z"/></svg>
+                <div><strong>بطاقة ائتمانية</strong><small>Visa / MasterCard</small></div>
+              </button>
+              <button class="payment-btn" onclick="selectPayment('bank',this)">
+                <i class="fas fa-university" style="font-size:1.6rem;color:var(--primary);width:40px;text-align:center"></i>
+                <div><strong>تحويل بنكي</strong><small>IBAN مباشر</small></div>
+              </button>
+              <button class="payment-btn" onclick="selectPayment('later',this)">
+                <i class="fas fa-handshake" style="font-size:1.6rem;color:var(--success);width:40px;text-align:center"></i>
+                <div><strong>دفع لاحق</strong><small>بعد التواصل</small></div>
+              </button>
+            </div>
+
+            <!-- PayPal info -->
+            <div id="paypalInfo" style="margin-top:20px;background:rgba(0,149,255,0.05);border:1px solid rgba(0,149,255,0.2);border-radius:var(--radius-md);padding:16px">
+              <p style="font-size:0.85rem;margin:0;color:var(--gray-600)"><i class="fab fa-paypal" style="color:#003087;margin-left:6px"></i> ستُحوَّل إلى بوابة PayPal الآمنة لإتمام عملية الدفع. بعد الدفع ستُعاد تلقائياً للموقع وتُسجَّل طلبك.</p>
+            </div>
+            <div id="stripeInfo" style="display:none;margin-top:20px;background:rgba(99,91,255,0.05);border:1px solid rgba(99,91,255,0.2);border-radius:var(--radius-md);padding:16px">
+              <p style="font-size:0.85rem;margin:0;color:var(--gray-600)"><i class="fas fa-lock" style="color:#635bff;margin-left:6px"></i> ستُدخل بيانات بطاقتك في نموذج Stripe المشفّر المحمي بـ SSL 256-bit.</p>
+            </div>
+            <div id="bankInfo" style="display:none;margin-top:20px;background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.2);border-radius:var(--radius-md);padding:16px">
+              <h4 style="font-size:0.9rem;margin-bottom:10px">بيانات الحساب البنكي:</h4>
+              <div style="font-size:0.85rem;color:var(--gray-600);line-height:2">
+                <div><strong>اسم المستفيد:</strong> PixelCraft Studio</div>
+                <div><strong>رقم IBAN:</strong> <span dir="ltr">SA12 3456 7890 1234 5678 9012</span></div>
+                <div><strong>البنك:</strong> بنك الرياض</div>
+                <div><strong>ملاحظة:</strong> أرسل لقطة شاشة للإيصال على واتساب بعد التحويل</div>
+              </div>
+            </div>
+            <div id="laterInfo" style="display:none;margin-top:20px;background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.2);border-radius:var(--radius-md);padding:16px">
+              <p style="font-size:0.85rem;margin:0;color:var(--gray-600)"><i class="fas fa-info-circle" style="color:var(--warning);margin-left:6px"></i> سيتواصل معك فريقنا خلال 24 ساعة لتحديد طريقة الدفع المناسبة وبدء العمل.</p>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-top:28px">
+              <button class="btn btn-secondary" onclick="goToStep(1)"><i class="fas fa-arrow-right"></i> رجوع</button>
+              <button class="btn btn-primary btn-lg" style="flex:1;justify-content:center" onclick="processPayment()">
+                <i class="fas fa-lock"></i> تأكيد ودفع <span id="payBtnAmount"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Success -->
+        <div class="step-panel" id="panel3">
+          <div class="order-form-card">
+            <div class="success-state">
+              <div class="success-icon"><i class="fas fa-check"></i></div>
+              <h2 style="margin-bottom:12px">🎉 تم استلام طلبك!</h2>
+              <p style="font-size:1rem;max-width:400px;margin:0 auto 24px">شكراً لثقتك بنا! سيتواصل معك فريقنا خلال 24 ساعة لبدء العمل على مشروعك.</p>
+              <div id="orderConfirmBox" style="background:var(--gray-50);border-radius:var(--radius-lg);padding:20px;margin-bottom:28px;text-align:right;max-width:400px;margin:0 auto 28px"></div>
+              <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+                <a href="dashboard.html" class="btn btn-primary btn-lg"><i class="fas fa-th-large"></i> لوحة التحكم</a>
+                <a href="index.html" class="btn btn-secondary btn-lg"><i class="fas fa-home"></i> الرئيسية</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Summary -->
+      <div>
+        <div class="summary-card">
+          <h3>ملخص الطلب</h3>
+          <div class="summary-row"><span>الخدمة</span><span class="val" id="sumService">—</span></div>
+          <div class="summary-row"><span>الباقة</span><span class="val" id="sumPkg">أساسية</span></div>
+          <div class="summary-row"><span>وقت التسليم</span><span class="val" id="sumDelivery">7 أيام</span></div>
+          <div class="summary-row"><span>المراجعات</span><span class="val" id="sumRevisions">مراجعتان</span></div>
+          <div class="summary-row total"><span>الإجمالي</span><span class="val" id="sumTotal">$—</span></div>
+
+          <button class="btn btn-primary btn-block btn-lg" style="margin-top:20px" onclick="goToStep(2)" id="summaryOrderBtn">
+            <i class="fas fa-shopping-cart"></i> متابعة الطلب
+          </button>
+
+          <div class="trust-badges">
+            <div class="trust-badge"><i class="fas fa-shield-alt"></i> دفع آمن ومشفّر 100%</div>
+            <div class="trust-badge"><i class="fas fa-undo"></i> ضمان الاسترداد خلال 24 ساعة</div>
+            <div class="trust-badge"><i class="fas fa-star"></i> ضمان الرضا التام</div>
+            <div class="trust-badge"><i class="fas fa-headset"></i> دعم على مدار الساعة</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer" id="footer"></footer>
+
+<script src="js/app.js"></script>
+<script>
+  let currentStep = 1;
+  let selectedPackage = 'basic';
+  let selectedPayment = 'paypal';
+  let currentService = null;
+  let orderId = null;
+
+  const pkgDetails = {
+    basic:    { label:'أساسية',    delivery:'7 أيام', revisions:'مراجعتان', priceField:'price_basic'    },
+    standard: { label:'قياسية',    delivery:'5 أيام', revisions:'5 مراجعات', priceField:'price_standard' },
+    premium:  { label:'متقدمة 💎', delivery:'3 أيام', revisions:'غير محدودة', priceField:'price_premium'  },
+  };
+
+  // Pre-fill user info if logged in
+  const user = getCurrentUser();
+  if (user) {
+    document.getElementById('guestFields').innerHTML = `
+      <div class="alert alert-info" style="margin-bottom:20px">
+        <i class="fas fa-user-check"></i>
+        مرحباً <strong>${user.name}</strong>! سيتم ربط الطلب بحسابك تلقائياً.
+      </div>`;
+  }
+
+  // Load services
+  async function initPage() {
+    try {
+      const data = await API.get('services', { limit: 50 });
+      const services = data.data || [];
+      const sel = document.getElementById('oService');
+      services.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.textContent = currentLang === 'en' ? s.title_en : s.title_ar;
+        opt.dataset.basic    = s.price_basic;
+        opt.dataset.standard = s.price_standard;
+        opt.dataset.premium  = s.price_premium;
+        opt.dataset.titleAr  = s.title_ar;
+        opt.dataset.titleEn  = s.title_en;
+        sel.appendChild(opt);
+      });
+
+      // Auto-select from URL params
+      const params = new URLSearchParams(window.location.search);
+      const serviceId = params.get('service');
+      const pkg       = params.get('package');
+      if (serviceId) {
+        sel.value = serviceId;
+        updateServicePrices();
+      }
+      if (pkg && pkgDetails[pkg]) {
+        document.querySelectorAll('.pkg-option').forEach(el => el.classList.remove('sel'));
+        const pkgMap = { basic:0, standard:1, premium:2 };
+        document.querySelectorAll('.pkg-option')[pkgMap[pkg]]?.classList.add('sel');
+        selectedPackage = pkg;
+        updateSummary();
+      }
+    } catch(e) {
+      console.error('Error loading services:', e);
+    }
+  }
+
+  function updateServicePrices() {
+    const sel = document.getElementById('oService');
+    const opt = sel.options[sel.selectedIndex];
+    if (!opt || !opt.value) return;
+    currentService = { id: opt.value, title: opt.dataset.titleAr, basic: opt.dataset.basic, standard: opt.dataset.standard, premium: opt.dataset.premium };
+    document.getElementById('priceBasic').textContent    = `$${opt.dataset.basic}`;
+    document.getElementById('priceStandard').textContent = `$${opt.dataset.standard}`;
+    document.getElementById('pricePremium').textContent  = `$${opt.dataset.premium}`;
+    document.getElementById('sumService').textContent = opt.dataset.titleAr;
+    updateSummary();
+  }
+
+  function selectPkg(pkg, el) {
+    selectedPackage = pkg;
+    document.querySelectorAll('.pkg-option').forEach(p => p.classList.remove('sel'));
+    el.classList.add('sel');
+    updateSummary();
+  }
+
+  function updateSummary() {
+    const pkg = pkgDetails[selectedPackage];
+    document.getElementById('sumPkg').textContent       = pkg.label;
+    document.getElementById('sumDelivery').textContent  = pkg.delivery;
+    document.getElementById('sumRevisions').textContent = pkg.revisions;
+    const price = currentService ? currentService[selectedPackage] : '—';
+    document.getElementById('sumTotal').textContent = price ? `$${price}` : '$—';
+    document.getElementById('payBtnAmount').textContent = price ? `($${price})` : '';
+  }
+
+  function goToStep(n, force = false) {
+    if (n === 2 && !force) return; // must go through form validation
+    currentStep = n;
+    document.querySelectorAll('.step-panel').forEach((p,i) => p.classList.toggle('active', i === n - 1));
+    document.querySelectorAll('.order-step').forEach((s,i) => {
+      s.classList.remove('active','done');
+      if (i + 1 === n)  s.classList.add('active');
+      if (i + 1 < n)    s.classList.add('done');
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function goToStep2(e) {
+    e.preventDefault();
+    const service = document.getElementById('oService').value;
+    const desc    = document.getElementById('oDesc').value.trim();
+    if (!service) { showAlert('اختر الخدمة المطلوبة', 'danger'); return; }
+    if (!desc)    { showAlert('اكتب وصفاً للمشروع', 'danger'); return; }
+    if (!user) {
+      const name  = document.getElementById('oName').value.trim();
+      const email = document.getElementById('oEmail').value.trim();
+      if (!name || !email) { showAlert('أدخل اسمك وبريدك الإلكتروني', 'danger'); return; }
+    }
+    goToStep(2, true);
+  }
+
+  function showAlert(msg, type = 'info') {
+    const el = document.getElementById('orderAlert');
+    el.className = `alert alert-${type}`;
+    el.innerHTML = `<i class="fas fa-info-circle"></i> ${msg}`;
+    el.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    setTimeout(() => el.className = 'hidden', 5000);
+  }
+
+  function selectPayment(method, el) {
+    selectedPayment = method;
+    document.querySelectorAll('.payment-btn').forEach(b => b.classList.remove('sel'));
+    el.classList.add('sel');
+    document.getElementById('paypalInfo').style.display  = method === 'paypal'  ? 'block' : 'none';
+    document.getElementById('stripeInfo').style.display  = method === 'stripe'  ? 'block' : 'none';
+    document.getElementById('bankInfo').style.display    = method === 'bank'    ? 'block' : 'none';
+    document.getElementById('laterInfo').style.display   = method === 'later'   ? 'block' : 'none';
+  }
+
+  async function processPayment() {
+    const service  = document.getElementById('oService').value;
+    const desc     = document.getElementById('oDesc').value.trim();
+    const notes    = document.getElementById('oNotes').value.trim();
+    const price    = currentService ? Number(currentService[selectedPackage]) : 0;
+
+    const orderData = {
+      user_id:       user ? user.id : 'guest',
+      user_name:     user ? user.name : document.getElementById('oName')?.value?.trim() || '',
+      user_email:    user ? user.email : document.getElementById('oEmail')?.value?.trim() || '',
+      service:       service,
+      package:       selectedPackage,
+      price,
+      status:        'pending',
+      payment_status: selectedPayment === 'later' ? 'unpaid' : 'unpaid',
+      description:   desc,
+      notes
+    };
+
+    try {
+      const created = await API.post('orders', orderData);
+      orderId = created.id;
+
+      // Webhook
+      const webhookUrl = localStorage.getItem('webhook_url');
+      if (webhookUrl) triggerWebhook(webhookUrl, { type: 'new_order', ...orderData, order_id: orderId });
+
+      // Google Sheets
+      const sheetsUrl = localStorage.getItem('sheets_url');
+      if (sheetsUrl) exportToGoogleSheets(sheetsUrl, { ...orderData, order_id: orderId });
+
+      // Process payment
+      if (selectedPayment === 'paypal' && price > 0) {
+        initiatePayPal(price, 'USD', orderId, window.location.href + '?payment=success&order=' + orderId);
+      } else if (selectedPayment === 'stripe' && price > 0) {
+        initiateStripe(price, 'USD', 'تصميم PixelCraft Studio');
+      }
+
+      // Show success
+      showConfirmation(orderData, orderId);
+      goToStep(3, true);
+
+    } catch(e) {
+      showToast('حدث خطأ أثناء تسجيل الطلب. حاول مرة أخرى.', 'danger');
+    }
+  }
+
+  function showConfirmation(order, id) {
+    const box = document.getElementById('orderConfirmBox');
+    box.innerHTML = `
+      <div class="summary-row"><span>رقم الطلب</span><span class="val" dir="ltr">#${id?.slice(-8)?.toUpperCase() || 'XXXXXXXX'}</span></div>
+      <div class="summary-row"><span>الخدمة</span><span class="val">${currentService?.title || ''}</span></div>
+      <div class="summary-row"><span>الباقة</span><span class="val">${pkgDetails[selectedPackage].label}</span></div>
+      <div class="summary-row"><span>طريقة الدفع</span><span class="val">${{paypal:'PayPal',stripe:'بطاقة ائتمانية',bank:'تحويل بنكي',later:'دفع لاحق'}[selectedPayment]}</span></div>
+      <div class="summary-row total"><span>الإجمالي</span><span class="val">$${order.price}</span></div>
+    `;
+  }
+
+  // Check for payment return
+  const urlP = new URLSearchParams(window.location.search);
+  if (urlP.get('payment') === 'success') {
+    showToast('✅ تم الدفع بنجاح! جاري تسجيل طلبك...', 'success');
+    const oid = urlP.get('order');
+    if (oid) API.patch('orders', oid, { payment_status: 'paid' });
+  }
+
+  document.addEventListener('DOMContentLoaded', initPage);
+</script>
+</body>
+</html>

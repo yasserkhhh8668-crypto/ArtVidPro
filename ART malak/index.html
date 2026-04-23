@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PixelCraft Studio | وكالة التصميم الرقمي</title>
+  <meta name="description" content="وكالة تصميم رقمية متخصصة في تصميم الجرافيك، واجهات المستخدم، والهوية البصرية."/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    /* Hero grid */
+    .hero .container { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; padding: 80px 24px; }
+    @media(max-width:768px){ .hero .container { grid-template-columns: 1fr; text-align: center; } .hero p { max-width: 100%; } .hero-stats { justify-content: center; } .hero-image { display: none; } }
+
+    /* Hero mockup visual */
+    .mockup-wrap { position: relative; }
+    .mockup-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+    }
+    .mockup-bar { display: flex; gap: 6px; margin-bottom: 20px; }
+    .mockup-bar span { width: 10px; height: 10px; border-radius: 50%; }
+    .mockup-bar span:nth-child(1) { background: #ef4444; }
+    .mockup-bar span:nth-child(2) { background: #f59e0b; }
+    .mockup-bar span:nth-child(3) { background: #22c55e; }
+    .mockup-content { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .mockup-block { background: rgba(79,142,247,0.15); border-radius: 10px; height: 80px; display: flex; align-items: center; justify-content: center; }
+    .mockup-block.tall { height: 160px; grid-row: span 2; }
+    .mockup-block i { font-size: 1.8rem; color: rgba(165,200,255,0.7); }
+
+    .floating-badge {
+      position: absolute;
+      background: white;
+      border-radius: 14px;
+      padding: 10px 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.82rem; font-weight: 700; color: var(--primary);
+      animation: float 4s ease-in-out infinite;
+    }
+    .floating-badge .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--success); }
+    .floating-badge-1 { top: -20px; right: -20px; animation-delay: 0s; }
+    .floating-badge-2 { bottom: 30px; left: -30px; animation-delay: 2s; }
+
+    /* Services on home */
+    #services { background: var(--gray-50); }
+
+    /* Why choose us */
+    #why { background: var(--white); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    @media(max-width:768px){ .why-grid { grid-template-columns: 1fr; } }
+    .why-list { display: flex; flex-direction: column; gap: 24px; }
+    .why-item { display: flex; gap: 20px; }
+    .why-icon { width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, var(--accent), var(--accent-light)); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; flex-shrink: 0; }
+    .why-item h4 { margin-bottom: 6px; }
+    .why-item p { font-size: 0.9rem; margin: 0; }
+
+    /* Testimonials */
+    #testimonials { background: var(--gray-50); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .testimonial-card { background: white; border-radius: 20px; padding: 28px; box-shadow: var(--shadow-md); }
+    .testimonial-stars { color: #f59e0b; margin-bottom: 16px; font-size: 0.9rem; }
+    .testimonial-text { font-style: italic; color: var(--gray-600); margin-bottom: 20px; line-height: 1.8; font-size: 0.95rem; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .author-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.1rem; }
+    .author-name { font-weight: 700; font-size: 0.95rem; }
+    .author-title { font-size: 0.8rem; color: var(--gray-400); }
+
+    /* Process section */
+    #process { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); color: white; }
+    #process .section-title h2, #process h3 { color: white; }
+    #process .section-title p { color: rgba(255,255,255,0.7); }
+    .process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
+    .process-step { text-align: center; }
+    .process-num { width: 60px; height: 60px; border-radius: 50%; border: 2px solid rgba(79,142,247,0.5); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 800; color: var(--accent-light); margin: 0 auto 20px; background: rgba(79,142,247,0.1); }
+    .process-step h3 { font-size: 1.1rem; margin-bottom: 10px; }
+    .process-step p { font-size: 0.9rem; color: rgba(255,255,255,0.65); margin: 0; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar" id="navbar"></nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">✨ <span>وكالة تصميم رقمية متخصصة</span></div>
+      <h1>نصنع <span>هويتك البصرية</span><br>بإبداع لا حدود له</h1>
+      <p>نقدم خدمات تصميم جرافيك احترافية، تصميم واجهات المستخدم، والهوية البصرية المتكاملة لتميّز علامتك التجارية وتصل إلى جمهورك.</p>
+      <div class="hero-actions">
+        <a href="order.html" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i> ابدأ مشروعك</a>
+        <a href="portfolio.html" class="btn btn-outline btn-lg"><i class="fas fa-eye"></i> شاهد أعمالنا</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat-item">
+          <div class="number">+<span>200</span></div>
+          <p>عميل سعيد</p>
+        </div>
+        <div class="hero-stat-item">
+          <div class="number">+<span>500</span></div>
+          <p>مشروع منجز</p>
+        </div>
+        <div class="hero-stat-item">
+          <div class="number"><span>5</span>+</div>
+          <p>سنوات خبرة</p>
+        </div>
+      </div>
+    </div>
+    <div class="mockup-wrap">
+      <div class="mockup-card">
+        <div class="mockup-bar"><span></span><span></span><span></span></div>
+        <div class="mockup-content">
+          <div class="mockup-block tall"><i class="fas fa-palette"></i></div>
+          <div class="mockup-block"><i class="fas fa-pen-nib"></i></div>
+          <div class="mockup-block"><i class="fas fa-star"></i></div>
+          <div class="mockup-block"><i class="fas fa-desktop"></i></div>
+          <div class="mockup-block"><i class="fas fa-share-alt"></i></div>
+        </div>
+      </div>
+      <div class="floating-badge floating-badge-1">
+        <div class="dot"></div>
+        <span>🎨 مشروع مكتمل!</span>
+      </div>
+      <div class="floating-badge floating-badge-2">
+        <i class="fas fa-star" style="color:#f59e0b"></i>
+        <span>تقييم 5 نجوم ⭐⭐⭐⭐⭐</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Preview -->
+<section id="services">
+  <div class="container">
+    <div class="section-title">
+      <div class="badge"><i class="fas fa-magic"></i> خدماتنا</div>
+      <h2>ماذا نقدم لك؟</h2>
+      <p>نقدم مجموعة متكاملة من خدمات التصميم الرقمي لمساعدتك في بناء حضور قوي ومميز.</p>
+      <div class="line"></div>
+    </div>
+    <div class="services-grid" id="servicesPreview">
+      <!-- loaded by JS -->
+      <div style="grid-column:1/-1;text-align:center;padding:40px"><div class="spinner" style="margin:0 auto"></div></div>
+    </div>
+    <div style="text-align:center;margin-top:40px">
+      <a href="services.html" class="btn btn-secondary btn-lg"><i class="fas fa-arrow-left"></i> عرض جميع الخدمات</a>
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Us -->
+<section id="why">
+  <div class="container">
+    <div class="why-grid">
+      <div>
+        <div class="badge" style="margin-bottom:16px"><i class="fas fa-award"></i> لماذا تختارنا؟</div>
+        <h2 style="margin-bottom:16px">نلتزم بالجودة<br>ونسعى للتميّز</h2>
+        <p style="margin-bottom:36px">نؤمن بأن كل علامة تجارية تستحق هوية بصرية استثنائية تعكس قيمها وتجذب جمهورها.</p>
+        <div class="why-list">
+          <div class="why-item">
+            <div class="why-icon"><i class="fas fa-bolt"></i></div>
+            <div><h4>تسليم سريع</h4><p>نلتزم بمواعيد التسليم المتفق عليها دون أي تأخير.</p></div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon"><i class="fas fa-redo"></i></div>
+            <div><h4>مراجعات غير محدودة</h4><p>نعدّل حتى تحصل على النتيجة التي تحلم بها تماماً.</p></div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon"><i class="fas fa-headset"></i></div>
+            <div><h4>دعم متواصل</h4><p>فريقنا متاح دائماً للرد على استفساراتك ومساعدتك.</p></div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+            <div><h4>ضمان الرضا</h4><p>نضمن رضاك التام أو نعيد لك المال كاملاً.</p></div>
+          </div>
+        </div>
+      </div>
+      <div style="position:relative">
+        <div style="background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:28px;padding:40px;text-align:center;color:white">
+          <div style="font-size:5rem;margin-bottom:20px">🎯</div>
+          <h3 style="color:white;margin-bottom:12px">هدفنا نجاحك</h3>
+          <p style="color:rgba(255,255,255,0.75);font-size:0.95rem">نعمل معك كشريك استراتيجي لا كمزوّد خدمة</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px">
+            <div style="background:rgba(255,255,255,0.1);border-radius:14px;padding:20px">
+              <div style="font-size:1.8rem;font-weight:800;color:var(--accent-light)">98%</div>
+              <div style="font-size:0.8rem;opacity:0.75;margin-top:4px">رضا العملاء</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.1);border-radius:14px;padding:20px">
+              <div style="font-size:1.8rem;font-weight:800;color:var(--accent-light)">24h</div>
+              <div style="font-size:0.8rem;opacity:0.75;margin-top:4px">وقت الاستجابة</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Process Section -->
+<section id="process">
+  <div class="container">
+    <div class="section-title">
+      <div class="badge" style="background:rgba(79,142,247,0.15);border-color:rgba(79,142,247,0.3)"><i class="fas fa-cogs"></i> طريقة عملنا</div>
+      <h2>كيف نعمل؟</h2>
+      <p style="color:rgba(255,255,255,0.7)">عملية بسيطة وشفافة تضمن لك أفضل النتائج</p>
+      <div class="line"></div>
+    </div>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="process-num">01</div>
+        <h3>التواصل والاستشارة</h3>
+        <p>نستمع لأفكارك ومتطلباتك بعناية ونقدم لك استشارة مجانية.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">02</div>
+        <h3>التخطيط والتصميم</h3>
+        <p>نضع خطة واضحة ونبدأ بتصميم أولي يعكس رؤيتك.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">03</div>
+        <h3>المراجعة والتعديل</h3>
+        <p>نراجع معك التصميم ونجري التعديلات اللازمة حتى تتحقق رضاك.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">04</div>
+        <h3>التسليم النهائي</h3>
+        <p>نسلّمك الملفات بجميع الصيغ المطلوبة جاهزة للاستخدام.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-title">
+      <div class="badge"><i class="fas fa-quote-right"></i> آراء عملائنا</div>
+      <h2>ماذا يقول عملاؤنا؟</h2>
+      <p>أكثر من 200 عميل وثقوا بنا وحققوا نتائج رائعة</p>
+      <div class="line"></div>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"PixelCraft غيّرت نظرتي للتصميم. الشعار الذي صمموه لي كان أكثر مما كنت أتخيل، وفريقهم محترف جداً."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">م</div>
+          <div><div class="author-name">محمد العتيبي</div><div class="author-title">مدير تسويق - شركة تقنية</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"تعاملت معهم لتصميم واجهة تطبيقي وكانت النتيجة مذهلة. التسليم كان في الوقت المحدد والجودة فوق التوقعات."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">س</div>
+          <div><div class="author-name">سارة الشمري</div><div class="author-title">مؤسسة متجر إلكتروني</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"الهوية البصرية التي أنجزوها لعلامتنا التجارية ساهمت في رفع مبيعاتنا بشكل ملحوظ. أنصح الجميع بهم!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">ع</div>
+          <div><div class="author-name">عبدالله القحطاني</div><div class="author-title">رائد أعمال</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lead Capture Banner -->
+<section class="lead-banner">
+  <div class="container">
+    <h2>هل أنت مهتم بخدماتنا؟</h2>
+    <p>اشترك الآن واحصل على استشارة مجانية وعروض حصرية مباشرة في بريدك</p>
+    <form class="lead-form" id="leadForm" onsubmit="submitLead(event)">
+      <input type="text" placeholder="اسمك الكريم" id="leadName" required style="direction:inherit"/>
+      <input type="email" placeholder="بريدك الإلكتروني" id="leadEmail" required style="direction:ltr;text-align:right"/>
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-paper-plane"></i> احصل على استشارة
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer" id="footer"></footer>
+
+<script src="js/app.js"></script>
+<script>
+  // Load services preview
+  async function loadServicesPreview() {
+    try {
+      const data = await API.get('services', { limit: 3 });
+      const grid = document.getElementById('servicesPreview');
+      const services = (data.data || []).slice(0, 3);
+      if (services.length === 0) {
+        grid.innerHTML = '<p style="text-align:center;grid-column:1/-1">لا توجد خدمات متاحة</p>';
+        return;
+      }
+      grid.innerHTML = services.map(s => `
+        <div class="service-card">
+          <div class="service-icon"><i class="fas ${s.icon || 'fa-palette'}"></i></div>
+          <h3>${currentLang === 'en' ? s.title_en : s.title_ar}</h3>
+          <p>${currentLang === 'en' ? s.description_en : s.description_ar}</p>
+          <div class="service-price">
+            <span class="currency">$</span>
+            <span class="amount">${s.price_basic}</span>
+            <span class="period">يبدأ من</span>
+          </div>
+          <a href="order.html?service=${s.id}" class="btn btn-primary btn-sm" style="margin-top:16px;width:100%;justify-content:center">
+            <i class="fas fa-shopping-cart"></i> اطلب الآن
+          </a>
+        </div>
+      `).join('');
+    } catch(e) {
+      document.getElementById('servicesPreview').innerHTML = '<p style="text-align:center;grid-column:1/-1;color:var(--gray-500)">تعذّر تحميل الخدمات</p>';
+    }
+  }
+
+  async function submitLead(e) {
+    e.preventDefault();
+    const name  = document.getElementById('leadName').value.trim();
+    const email = document.getElementById('leadEmail').value.trim();
+    if (!name || !email) return;
+    try {
+      await API.post('leads', { name, email, source: 'homepage', is_contacted: false });
+      showToast(currentLang === 'ar' ? '🎉 تم التسجيل! سنتواصل معك قريباً' : '🎉 Registered! We will contact you soon', 'success');
+      document.getElementById('leadForm').reset();
+      // Webhook trigger (optional - set URL in admin settings)
+      const webhookUrl = localStorage.getItem('webhook_url');
+      if (webhookUrl) triggerWebhook(webhookUrl, { type: 'new_lead', name, email });
+    } catch(e) {
+      showToast(currentLang === 'ar' ? 'حدث خطأ، حاول مرة أخرى' : 'An error occurred, try again', 'danger');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadServicesPreview);
+</script>
+</body>
+</html>
