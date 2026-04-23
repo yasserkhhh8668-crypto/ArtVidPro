@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PixelCraft Studio | أعمالنا</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .page-hero { background: linear-gradient(135deg,var(--primary-dark),var(--primary)); padding:120px 0 80px; text-align:center; color:white; position:relative; overflow:hidden; }
+    .page-hero::before { content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%234f8ef7' fill-opacity='0.07'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+    .page-hero h1, .page-hero p { position:relative; }
+    .page-hero h1 { color:white; margin-bottom:16px; }
+    .page-hero p  { color:rgba(255,255,255,0.75); font-size:1.05rem; max-width:520px; margin:0 auto; }
+
+    .filter-tabs { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom:40px; }
+    .filter-tab { padding:8px 22px; border-radius:var(--radius-full); border:2px solid var(--gray-200); font-size:0.88rem; font-weight:600; color:var(--gray-600); cursor:pointer; transition:var(--transition); background:white; }
+    .filter-tab.active, .filter-tab:hover { background:var(--accent); color:white; border-color:var(--accent); }
+
+    /* Masonry-like grid */
+    .portfolio-masonry { columns: 3; column-gap: 20px; }
+    @media(max-width:900px){ .portfolio-masonry { columns: 2; } }
+    @media(max-width:500px){ .portfolio-masonry { columns: 1; } }
+
+    .portfolio-item {
+      break-inside: avoid;
+      margin-bottom: 20px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      background: var(--primary-light);
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+    }
+    .portfolio-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); }
+    .portfolio-item .visual {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      position: relative;
+      overflow: hidden;
+    }
+    .portfolio-item .visual-icon {
+      font-size: 4rem;
+      color: rgba(255,255,255,0.15);
+      padding: 60px;
+    }
+    .portfolio-item.h1 .visual { height: 300px; }
+    .portfolio-item.h2 .visual { height: 200px; }
+    .portfolio-item.h3 .visual { height: 260px; }
+
+    .portfolio-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,20,50,0.95) 0%, rgba(10,20,50,0.3) 60%, transparent 100%);
+      opacity: 0;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+    }
+    .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+    .portfolio-overlay h4 { color: white; margin-bottom: 4px; font-size: 1rem; }
+    .portfolio-overlay p  { color: rgba(255,255,255,0.7); font-size: 0.82rem; margin: 0; }
+
+    .portfolio-cat-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(79,142,247,0.9);
+      color: white;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Lightbox */
+    .lightbox { position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:9999; display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:var(--transition); }
+    .lightbox.open { opacity:1; visibility:visible; }
+    .lightbox-inner { max-width:800px; width:90%; text-align:center; position:relative; }
+    .lightbox-visual { background:linear-gradient(135deg,var(--primary),var(--primary-light)); border-radius:var(--radius-lg); height:400px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; }
+    .lightbox-visual i { font-size:6rem; color:rgba(255,255,255,0.2); }
+    .lightbox h3 { color:white; margin-bottom:8px; font-size:1.3rem; }
+    .lightbox p  { color:rgba(255,255,255,0.65); font-size:0.9rem; max-width:500px; margin:0 auto 20px; }
+    .lightbox-close { position:absolute; top:-50px; left:50%; transform:translateX(-50%); width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; cursor:pointer; color:white; font-size:1.1rem; transition:var(--transition); }
+    .lightbox-close:hover { background:var(--danger); }
+
+    /* Stats bar */
+    .stats-bar { background:var(--primary); padding:40px 0; }
+    .stats-bar-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; text-align:center; }
+    @media(max-width:600px){ .stats-bar-grid { grid-template-columns:1fr 1fr; } }
+    .stats-bar-item .num { font-size:2.5rem; font-weight:800; color:var(--accent-light); }
+    .stats-bar-item p   { color:rgba(255,255,255,0.65); font-size:0.85rem; margin:0; }
+  </style>
+</head>
+<body>
+<nav class="navbar" id="navbar"></nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="badge" style="background:rgba(79,142,247,0.2);border-color:rgba(79,142,247,0.4);color:var(--accent-light);margin-bottom:16px"><i class="fas fa-images"></i> معرض الأعمال</div>
+    <h1>أعمالنا تتحدث عنّا</h1>
+    <p>أكثر من 500 مشروع ناجح في مختلف مجالات التصميم الرقمي</p>
+  </div>
+</div>
+
+<!-- Stats Bar -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-bar-grid">
+      <div class="stats-bar-item"><div class="num">500+</div><p>مشروع منجز</p></div>
+      <div class="stats-bar-item"><div class="num">200+</div><p>عميل سعيد</p></div>
+      <div class="stats-bar-item"><div class="num">15+</div><p>جائزة تصميم</p></div>
+      <div class="stats-bar-item"><div class="num">5+</div><p>سنوات خبرة</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- Portfolio Grid -->
+<section>
+  <div class="container">
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterPortfolio('all',this)">الكل</button>
+      <button class="filter-tab" onclick="filterPortfolio('brand',this)">هوية بصرية</button>
+      <button class="filter-tab" onclick="filterPortfolio('ui',this)">UI/UX</button>
+      <button class="filter-tab" onclick="filterPortfolio('logo',this)">شعارات</button>
+      <button class="filter-tab" onclick="filterPortfolio('social',this)">سوشيال ميديا</button>
+      <button class="filter-tab" onclick="filterPortfolio('graphic',this)">جرافيك</button>
+    </div>
+
+    <div class="portfolio-masonry" id="portfolioGrid"></div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section style="background:linear-gradient(135deg,var(--primary),var(--primary-light));text-align:center;color:white">
+  <div class="container">
+    <h2 style="color:white;margin-bottom:16px">هل أعجبتك أعمالنا؟</h2>
+    <p style="color:rgba(255,255,255,0.75);margin-bottom:32px;font-size:1.05rem">ابدأ مشروعك معنا اليوم وكن جزءاً من قصص نجاحنا</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <a href="order.html" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i> ابدأ مشروعك</a>
+      <a href="contact.html" class="btn btn-outline btn-lg"><i class="fas fa-comments"></i> تحدّث معنا</a>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <div class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></div>
+    <div class="lightbox-visual"><i class="fas fa-palette" id="lbIcon"></i></div>
+    <h3 id="lbTitle"></h3>
+    <p id="lbDesc"></p>
+    <div style="display:flex;gap:12px;justify-content:center">
+      <a id="lbOrderLink" href="order.html" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> اطلب مثله</a>
+      <button class="btn btn-outline" onclick="closeLightbox()">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer" id="footer"></footer>
+
+<script src="js/app.js"></script>
+<script>
+  // Portfolio data (static showcase)
+  const portfolioItems = [
+    { id:1, title:'هوية بصرية - شركة تقنية', desc:'تصميم هوية بصرية متكاملة تشمل الشعار، الألوان، الخطوط والمواد التسويقية', cat:'brand', icon:'fa-star', size:'h1', color:'135deg,#1a2744,#243563' },
+    { id:2, title:'تصميم تطبيق موبايل', desc:'واجهة مستخدم عصرية لتطبيق تسوق إلكتروني بتجربة مستخدم استثنائية', cat:'ui', icon:'fa-mobile-alt', size:'h2', color:'135deg,#0f3460,#16213e' },
+    { id:3, title:'شعار علامة تجارية', desc:'شعار احترافي يعكس قيم ورؤية الشركة بأسلوب عصري ومميز', cat:'logo', icon:'fa-pen-nib', size:'h3', color:'135deg,#243563,#1a2744' },
+    { id:4, title:'حملة سوشيال ميديا', desc:'تصميم 30 منشوراً إبداعياً لمنصات التواصل الاجتماعي', cat:'social', icon:'fa-share-alt', size:'h2', color:'135deg,#1e3a5f,#0f1a2e' },
+    { id:5, title:'بوستر إعلاني', desc:'تصميم بوستر احترافي لحملة تسويقية ناجحة', cat:'graphic', icon:'fa-ad', size:'h1', color:'135deg,#162032,#243563' },
+    { id:6, title:'هوية مطعم', desc:'هوية بصرية كاملة لمطعم عصري تشمل القائمة، الأكياس والمطبوعات', cat:'brand', icon:'fa-utensils', size:'h3', color:'135deg,#0f2744,#1a3a6e' },
+    { id:7, title:'واجهة موقع شركة', desc:'تصميم UI/UX لموقع شركة استشارية بأسلوب أنيق واحترافي', cat:'ui', icon:'fa-desktop', size:'h2', color:'135deg,#1a2744,#2d4a80' },
+    { id:8, title:'شعار ستارتب', desc:'شعار عصري وبسيط لشركة ناشئة في مجال التكنولوجيا', cat:'logo', icon:'fa-rocket', size:'h1', color:'135deg,#0d1b3e,#1a2744' },
+    { id:9, title:'تصميم مجلة رقمية', desc:'تصميم مجلة رقمية تفاعلية بتخطيط إبداعي ومحتوى غني', cat:'graphic', icon:'fa-newspaper', size:'h2', color:'135deg,#243563,#1e2d50' },
+    { id:10, title:'هوية مدرسة', desc:'هوية بصرية متكاملة لمدرسة دولية تعكس قيم التعليم والابتكار', cat:'brand', icon:'fa-graduation-cap', size:'h3', color:'135deg,#0f1e3a,#1a2744' },
+    { id:11, title:'تصميم إعلان فيديو', desc:'موشن جرافيك احترافي لإعلان منتج جديد', cat:'graphic', icon:'fa-film', size:'h2', color:'135deg,#1a2744,#162032' },
+    { id:12, title:'تطبيق لياقة بدنية', desc:'تصميم UX/UI لتطبيق لياقة بدنية بمعايير احترافية عالية', cat:'ui', icon:'fa-heartbeat', size:'h1', color:'135deg,#0f2030,#1a3a5c' },
+  ];
+
+  let currentFilter = 'all';
+
+  function filterPortfolio(cat, btn) {
+    currentFilter = cat;
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderPortfolio();
+  }
+
+  function renderPortfolio() {
+    const items = currentFilter === 'all' ? portfolioItems : portfolioItems.filter(i => i.cat === currentFilter);
+    const grid  = document.getElementById('portfolioGrid');
+    const catLabels = { brand:'هوية بصرية', ui:'UI/UX', logo:'شعار', social:'سوشيال ميديا', graphic:'جرافيك' };
+
+    grid.innerHTML = items.map(item => `
+      <div class="portfolio-item ${item.size}" onclick="openLightbox(${item.id})">
+        <div class="visual" style="background:linear-gradient(${item.color})">
+          <i class="fas ${item.icon} visual-icon"></i>
+        </div>
+        <div class="portfolio-cat-badge">${catLabels[item.cat] || item.cat}</div>
+        <div class="portfolio-overlay">
+          <h4>${item.title}</h4>
+          <p>${item.desc.substring(0,60)}...</p>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function openLightbox(id) {
+    const item = portfolioItems.find(i => i.id === id);
+    if (!item) return;
+    document.getElementById('lbIcon').className = `fas ${item.icon}`;
+    document.getElementById('lbIcon').closest('.lightbox-visual').style.background = `linear-gradient(${item.color})`;
+    document.getElementById('lbTitle').textContent = item.title;
+    document.getElementById('lbDesc').textContent = item.desc;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(e) {
+    if (e && e.target !== document.getElementById('lightbox') && !e.target.closest('.lightbox-close')) return;
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('DOMContentLoaded', renderPortfolio);
+</script>
+</body>
+</html>
