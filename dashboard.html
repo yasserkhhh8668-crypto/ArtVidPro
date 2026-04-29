@@ -1,532 +1,89 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PixelCraft Studio | لوحة التحكم</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
-  <link rel="stylesheet" href="css/style.css"/>
-  <style>
-    .profile-header { background:linear-gradient(135deg,var(--primary),var(--primary-light)); border-radius:var(--radius-xl); padding:32px; color:white; display:flex; align-items:center; gap:24px; margin-bottom:28px; flex-wrap:wrap; }
-    .profile-avatar { width:80px; height:80px; border-radius:50%; background:rgba(255,255,255,0.15); border:3px solid rgba(255,255,255,0.3); display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:800; flex-shrink:0; }
-    .profile-info h2 { color:white; margin-bottom:4px; font-size:1.4rem; }
-    .profile-info p  { color:rgba(255,255,255,0.7); font-size:0.9rem; margin:0; }
-    .profile-stats { display:flex; gap:24px; margin-right:auto; }
-    body.lang-en .profile-stats { margin-right:0; margin-left:auto; }
-    .pstat { text-align:center; }
-    .pstat .num { font-size:1.6rem; font-weight:800; color:white; }
-    .pstat .lbl { font-size:0.75rem; color:rgba(255,255,255,0.6); }
-
-    .dashboard-tabs { display:flex; border-bottom:2px solid var(--gray-200); margin-bottom:28px; gap:4px; overflow-x:auto; }
-    .dash-tab { padding:12px 20px; font-size:0.9rem; font-weight:600; color:var(--gray-500); border-bottom:2px solid transparent; margin-bottom:-2px; cursor:pointer; transition:var(--transition); white-space:nowrap; }
-    .dash-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
-    .dash-tab:hover  { color:var(--primary); }
-
-    .tab-content { display:none; }
-    .tab-content.active { display:block; }
-
-    /* Order Card */
-    .order-card { background:white; border-radius:var(--radius-lg); padding:24px; box-shadow:var(--shadow-sm); margin-bottom:16px; border:1px solid var(--gray-100); transition:var(--transition); }
-    .order-card:hover { box-shadow:var(--shadow-md); border-color:var(--gray-200); }
-    .order-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; gap:12px; flex-wrap:wrap; }
-    .order-id { font-size:0.75rem; color:var(--gray-400); font-family:monospace; }
-    .order-card-body { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:16px; }
-    .order-detail { font-size:0.85rem; }
-    .order-detail label { display:block; color:var(--gray-400); font-size:0.75rem; margin-bottom:3px; text-transform:uppercase; letter-spacing:0.5px; }
-    .order-detail strong { color:var(--primary); font-weight:600; }
-    .order-card-footer { margin-top:16px; padding-top:16px; border-top:1px solid var(--gray-100); display:flex; gap:8px; flex-wrap:wrap; }
-
-    /* Profile Form */
-    .profile-form-card { background:white; border-radius:var(--radius-xl); padding:32px; box-shadow:var(--shadow-sm); }
-    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-    @media(max-width:600px){ .form-row { grid-template-columns:1fr; } }
-
-    /* Empty state */
-    .empty-state { text-align:center; padding:60px 20px; }
-    .empty-icon  { font-size:4rem; color:var(--gray-300); margin-bottom:20px; }
-    .empty-state h3 { color:var(--gray-500); margin-bottom:10px; }
-    .empty-state p  { color:var(--gray-400); font-size:0.9rem; max-width:360px; margin:0 auto 24px; }
-
-    /* Notification card */
-    .notif-item { display:flex; gap:16px; padding:16px; border-radius:var(--radius-md); margin-bottom:10px; background:white; box-shadow:var(--shadow-sm); border-right:3px solid transparent; }
-    .notif-item.unread { border-right-color:var(--accent); }
-    .notif-icon { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
-    .notif-icon.blue   { background:rgba(79,142,247,0.1);  color:var(--accent); }
-    .notif-icon.green  { background:rgba(34,197,94,0.1);   color:var(--success); }
-    .notif-icon.orange { background:rgba(245,158,11,0.1);  color:var(--warning); }
-    .notif-text h4     { font-size:0.9rem; margin-bottom:3px; }
-    .notif-text p      { font-size:0.82rem; color:var(--gray-500); margin:0; }
-    .notif-time        { font-size:0.75rem; color:var(--gray-400); margin-right:auto; white-space:nowrap; flex-shrink:0; }
-    body.lang-en .notif-time { margin-right:0; margin-left:auto; }
-
-    /* Password change */
-    .pass-wrap { position:relative; }
-    .pass-toggle-btn { position:absolute; left:14px; top:50%; transform:translateY(-50%); cursor:pointer; color:var(--gray-400); background:none; border:none; padding:0; }
-    body.lang-en .pass-toggle-btn { left:auto; right:14px; }
-    .pass-wrap .form-control { padding-left:44px; }
-    body.lang-en .pass-wrap .form-control { padding-left:16px; padding-right:44px; }
-
-    @media(max-width:768px){ .profile-stats { display:none; } .profile-header { gap:16px; } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - ArtVidPro</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<nav class="navbar" id="navbar"></nav>
-
-<div class="dashboard-layout">
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <h3 id="sidebarName">لوحة تحكم المستخدم</h3>
-      <p id="sidebarEmail">...يتم التحميل</p>
-    </div>
-    <nav class="sidebar-nav">
-      <div class="sidebar-section">القائمة الرئيسية</div>
-      <a href="#" class="sidebar-link active" onclick="switchTab('orders',this)"><i class="fas fa-shopping-bag"></i> طلباتي</a>
-      <a href="#" class="sidebar-link" onclick="switchTab('profile',this)"><i class="fas fa-user-edit"></i> ملفي الشخصي</a>
-      <a href="#" class="sidebar-link" onclick="switchTab('notifications',this)"><i class="fas fa-bell"></i> الإشعارات</a>
-      <a href="#" class="sidebar-link" onclick="switchTab('security',this)"><i class="fas fa-shield-alt"></i> الأمان</a>
-
-      <div class="sidebar-section">الخدمات</div>
-      <a href="order.html" class="sidebar-link"><i class="fas fa-plus-circle"></i> طلب جديد</a>
-      <a href="services.html" class="sidebar-link"><i class="fas fa-magic"></i> استعراض الخدمات</a>
-      <a href="portfolio.html" class="sidebar-link"><i class="fas fa-images"></i> معرض الأعمال</a>
-
-      <div class="sidebar-section">الحساب</div>
-      <a href="#" class="sidebar-link" style="color:rgba(239,68,68,0.8)" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
-    </nav>
-  </aside>
-
-  <!-- Main Content -->
-  <main class="dashboard-main">
-    <!-- Mobile Sidebar Toggle -->
-    <button onclick="document.getElementById('sidebar').classList.toggle('open')" style="display:none;margin-bottom:16px" class="btn btn-secondary btn-sm" id="mobileMenuBtn">
-      <i class="fas fa-bars"></i> القائمة
-    </button>
-
-    <!-- Profile Header -->
-    <div class="profile-header">
-      <div class="profile-avatar" id="profileAvatar">U</div>
-      <div class="profile-info">
-        <h2 id="profileName">يتم التحميل...</h2>
-        <p id="profileEmail">...loading</p>
-        <p id="profileRole" style="margin-top:4px"></p>
-      </div>
-      <div class="profile-stats">
-        <div class="pstat"><div class="num" id="statOrders">0</div><div class="lbl">طلب</div></div>
-        <div class="pstat"><div class="num" id="statCompleted">0</div><div class="lbl">مكتمل</div></div>
-        <div class="pstat"><div class="num" id="statSpent">$0</div><div class="lbl">مصروف</div></div>
-      </div>
-    </div>
-
-    <!-- Tabs -->
-    <div class="dashboard-tabs">
-      <div class="dash-tab active" id="tabBtn-orders" onclick="switchTab('orders',this)"><i class="fas fa-shopping-bag"></i> طلباتي</div>
-      <div class="dash-tab" id="tabBtn-profile" onclick="switchTab('profile',this)"><i class="fas fa-user-edit"></i> ملفي الشخصي</div>
-      <div class="dash-tab" id="tabBtn-notifications" onclick="switchTab('notifications',this)"><i class="fas fa-bell"></i> الإشعارات</div>
-      <div class="dash-tab" id="tabBtn-security" onclick="switchTab('security',this)"><i class="fas fa-shield-alt"></i> الأمان</div>
-    </div>
-
-    <!-- Tab: Orders -->
-    <div class="tab-content active" id="tab-orders">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
-        <h3 style="font-size:1.1rem">طلباتي (<span id="ordersCount">0</span>)</h3>
-        <div style="display:flex;gap:8px">
-          <select class="form-control" style="width:auto;padding:8px 14px;font-size:0.85rem" id="orderFilter" onchange="filterOrders()">
-            <option value="all">جميع الطلبات</option>
-            <option value="pending">قيد الانتظار</option>
-            <option value="in_progress">جارٍ التنفيذ</option>
-            <option value="completed">مكتملة</option>
-            <option value="cancelled">ملغاة</option>
-          </select>
-          <a href="order.html" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> طلب جديد</a>
+    <div id="header-place"></div>
+    
+    <section class="section">
+        <h2 class="section-title">📊 لوحة تحكم المشرف</h2>
+        
+        <div class="grid" id="stats-grid">
+            <div class="card">
+                <div class="card-content">
+                    <h3>📦 الطلبات</h3>
+                    <p id="total-orders">0</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3>⏳ طلبات معلقة</h3>
+                    <p id="pending-orders">0</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3>💬 رسائل العملاء</h3>
+                    <p id="total-contacts">0</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div id="ordersList">
-        <div style="text-align:center;padding:40px"><div class="spinner" style="margin:0 auto"></div></div>
-      </div>
-    </div>
-
-    <!-- Tab: Profile -->
-    <div class="tab-content" id="tab-profile">
-      <div class="profile-form-card">
-        <h3 style="margin-bottom:24px">تعديل المعلومات الشخصية</h3>
-        <div id="profileAlert" class="hidden"></div>
-        <form onsubmit="saveProfile(event)">
-          <div class="form-row">
-            <div class="form-group">
-              <label>الاسم الكامل</label>
-              <input type="text" class="form-control" id="editName" placeholder="اسمك الكريم"/>
-            </div>
-            <div class="form-group">
-              <label>البريد الإلكتروني</label>
-              <input type="email" class="form-control" id="editEmail" placeholder="your@email.com" style="direction:ltr;text-align:right"/>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>رقم الهاتف</label>
-              <input type="tel" class="form-control" id="editPhone" placeholder="+966 5X XXX XXXX" style="direction:ltr"/>
-            </div>
-            <div class="form-group">
-              <label>المسمى الوظيفي / نوع النشاط</label>
-              <input type="text" class="form-control" id="editTitle" placeholder="مثال: مدير تسويق، صاحب مشروع"/>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>نبذة عنك</label>
-            <textarea class="form-control" id="editBio" rows="3" placeholder="اكتب نبذة مختصرة عنك أو عن نشاطك..."></textarea>
-          </div>
-          <div style="display:flex;gap:12px;margin-top:8px">
-            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> حفظ التغييرات</button>
-            <button type="button" class="btn btn-secondary" onclick="loadProfile()"><i class="fas fa-undo"></i> إلغاء</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Tab: Notifications -->
-    <div class="tab-content" id="tab-notifications">
-      <div id="notifList">
-        <div class="notif-item unread">
-          <div class="notif-icon blue"><i class="fas fa-shopping-bag"></i></div>
-          <div class="notif-text">
-            <h4>تم استلام طلبك</h4>
-            <p>تم استلام طلبك بنجاح وسيبدأ فريقنا بالعمل عليه قريباً</p>
-          </div>
-          <span class="notif-time">الآن</span>
+        
+        <div class="section">
+            <h3>📋 قائمة الطلبات</h3>
+            <table style="width:100%; background:white; border-radius:12px; overflow:hidden;">
+                <thead style="background:var(--primary); color:white;">
+                    <tr><th>الاسم</th><th>الهاتف</th><th>الخدمة</th><th>الحالة</th><th>تاريخ</th></tr>
+                </thead>
+                <tbody id="orders-table"></tbody>
+            </table>
         </div>
-        <div class="notif-item unread">
-          <div class="notif-icon green"><i class="fas fa-check-circle"></i></div>
-          <div class="notif-text">
-            <h4>مرحباً بك في PixelCraft!</h4>
-            <p>شكراً لتسجيلك معنا. يسعدنا خدمتك وتحقيق أهدافك الإبداعية</p>
-          </div>
-          <span class="notif-time">عند التسجيل</span>
-        </div>
-        <div class="notif-item">
-          <div class="notif-icon orange"><i class="fas fa-tag"></i></div>
-          <div class="notif-text">
-            <h4>عروض حصرية لعملائنا</h4>
-            <p>خصم 20% على جميع خدمات الهوية البصرية هذا الشهر فقط!</p>
-          </div>
-          <span class="notif-time">قبل يومين</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tab: Security -->
-    <div class="tab-content" id="tab-security">
-      <div class="profile-form-card">
-        <h3 style="margin-bottom:8px">تغيير كلمة المرور</h3>
-        <p style="color:var(--gray-500);font-size:0.9rem;margin-bottom:28px">استخدم كلمة مرور قوية تتضمن أحرفاً وأرقاماً ورموزاً</p>
-
-        <div id="securityAlert" class="hidden"></div>
-
-        <form onsubmit="changePassword(event)" style="max-width:500px">
-          <div class="form-group">
-            <label>كلمة المرور الحالية</label>
-            <div class="pass-wrap">
-              <input type="password" class="form-control" id="currentPass" placeholder="••••••••" required/>
-              <button type="button" class="pass-toggle-btn" onclick="togglePassField('currentPass',this)"><i class="fas fa-eye"></i></button>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>كلمة المرور الجديدة</label>
-            <div class="pass-wrap">
-              <input type="password" class="form-control" id="newPass" placeholder="••••••••" required/>
-              <button type="button" class="pass-toggle-btn" onclick="togglePassField('newPass',this)"><i class="fas fa-eye"></i></button>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>تأكيد كلمة المرور الجديدة</label>
-            <div class="pass-wrap">
-              <input type="password" class="form-control" id="confirmPass" placeholder="••••••••" required/>
-              <button type="button" class="pass-toggle-btn" onclick="togglePassField('confirmPass',this)"><i class="fas fa-eye"></i></button>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-primary"><i class="fas fa-lock"></i> تغيير كلمة المرور</button>
-        </form>
-
-        <hr style="margin:32px 0;border-color:var(--gray-100)"/>
-
-        <h3 style="margin-bottom:8px;color:var(--danger)">منطقة الخطر</h3>
-        <p style="color:var(--gray-500);font-size:0.9rem;margin-bottom:16px">هذه الإجراءات لا يمكن التراجع عنها</p>
-        <button class="btn btn-danger btn-sm" onclick="confirmDeleteAccount()"><i class="fas fa-trash"></i> حذف الحساب نهائياً</button>
-      </div>
-    </div>
-  </main>
-</div>
-
-<!-- Order Details Modal -->
-<div class="modal-overlay" id="orderModal">
-  <div class="modal" style="max-width:600px">
-    <div class="modal-header">
-      <h3>تفاصيل الطلب</h3>
-      <div class="modal-close" onclick="document.getElementById('orderModal').classList.remove('show')"><i class="fas fa-times"></i></div>
-    </div>
-    <div id="orderModalBody"></div>
-  </div>
-</div>
-
-<footer class="footer" id="footer"></footer>
-
-<script src="js/app.js"></script>
-<script>
-  // Auth guard
-  if (!requireAuth()) { /* redirect handled */ }
-
-  const user = getCurrentUser();
-  let userOrders = [];
-  let userData   = null;
-
-  // Mobile menu button
-  if (window.innerWidth <= 768) {
-    document.getElementById('mobileMenuBtn').style.display = 'inline-flex';
-  }
-
-  function switchTab(tab, clickedEl) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-    document.getElementById('tab-' + tab).classList.add('active');
-    const btn = document.getElementById('tabBtn-' + tab);
-    if (btn) btn.classList.add('active');
-    if (clickedEl && clickedEl.classList.contains('sidebar-link')) clickedEl.classList.add('active');
-  }
-
-  async function init() {
-    // Set user info
-    document.getElementById('sidebarName').textContent  = user.name;
-    document.getElementById('sidebarEmail').textContent = user.email;
-    document.getElementById('profileName').textContent  = user.name;
-    document.getElementById('profileEmail').textContent = user.email;
-    document.getElementById('profileAvatar').textContent = user.name.charAt(0).toUpperCase();
-    document.getElementById('profileRole').innerHTML = `<span class="badge ${user.role === 'admin' ? 'badge-info' : 'badge-primary'}">${user.role === 'admin' ? '👑 مدير' : '👤 عميل'}</span>`;
-
-    // Pre-fill profile form
-    document.getElementById('editName').value  = user.name;
-    document.getElementById('editEmail').value = user.email;
-    document.getElementById('editPhone').value = user.phone || '';
-
-    // Load full user data
-    if (user.id && user.id !== 'admin-001') {
-      try {
-        const res = await fetch(`tables/users/${user.id}`);
-        if (res.ok) {
-          userData = await res.json();
-          document.getElementById('editTitle').value = userData.title || '';
-          document.getElementById('editBio').value   = userData.bio || '';
+    </section>
+    
+    <div id="footer-place"></div>
+    
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+            window.location.href = 'auth.html';
         }
-      } catch(e) {}
-    }
-
-    // Load orders
-    await loadOrders();
-  }
-
-  async function loadOrders() {
-    try {
-      const data = await API.get('orders', { limit: 100 });
-      // Filter by current user
-      userOrders = (data.data || []).filter(o =>
-        o.user_id === user.id || o.user_email === user.email
-      ).sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
-
-      renderOrders(userOrders);
-
-      // Update stats
-      document.getElementById('ordersCount').textContent   = userOrders.length;
-      document.getElementById('statOrders').textContent    = userOrders.length;
-      document.getElementById('statCompleted').textContent = userOrders.filter(o => o.status === 'completed').length;
-      document.getElementById('statSpent').textContent     = '$' + userOrders.filter(o => o.payment_status === 'paid').reduce((s, o) => s + (o.price || 0), 0);
-    } catch(e) {
-      document.getElementById('ordersList').innerHTML = '<p style="text-align:center;color:var(--gray-400)">تعذّر تحميل الطلبات</p>';
-    }
-  }
-
-  const serviceNames = {
-    'svc-001': 'تصميم الجرافيك', 'svc-002': 'تصميم UI/UX',
-    'svc-003': 'الهوية البصرية', 'svc-004': 'تصميم الشعار', 'svc-005': 'سوشيال ميديا'
-  };
-
-  function renderOrders(orders) {
-    const list = document.getElementById('ordersList');
-    if (!orders.length) {
-      list.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-icon"><i class="fas fa-shopping-bag"></i></div>
-          <h3>لا توجد طلبات حتى الآن</h3>
-          <p>لم تقم بأي طلب بعد. ابدأ مشروعك الأول الآن!</p>
-          <a href="order.html" class="btn btn-primary"><i class="fas fa-plus"></i> طلب جديد</a>
-        </div>`;
-      return;
-    }
-    list.innerHTML = orders.map(o => `
-      <div class="order-card">
-        <div class="order-card-header">
-          <div>
-            <h4 style="font-size:1rem;margin-bottom:4px">${serviceNames[o.service] || o.service || 'خدمة'}</h4>
-            <div class="order-id">رقم الطلب: #${o.id?.slice(-8)?.toUpperCase() || '—'}</div>
-          </div>
-          <div style="display:flex;gap:8px;align-items:center">
-            ${getStatusBadge(o.status)}
-            ${getStatusBadge(o.payment_status)}
-          </div>
-        </div>
-        <div class="order-card-body">
-          <div class="order-detail"><label>الباقة</label><strong>${{basic:'أساسية',standard:'قياسية',premium:'متقدمة'}[o.package] || o.package}</strong></div>
-          <div class="order-detail"><label>السعر</label><strong style="color:var(--accent)">$${o.price || 0}</strong></div>
-          <div class="order-detail"><label>تاريخ الطلب</label><strong>${formatDate(o.created_at)}</strong></div>
-        </div>
-        <div class="order-card-footer">
-          <button class="btn btn-secondary btn-sm" onclick="viewOrder('${o.id}')"><i class="fas fa-eye"></i> عرض التفاصيل</button>
-          ${o.payment_status === 'unpaid' ? `<button class="btn btn-primary btn-sm" onclick="payOrder('${o.id}','${o.price}')"><i class="fas fa-credit-card"></i> إكمال الدفع</button>` : ''}
-          ${o.status === 'pending' ? `<button class="btn btn-danger btn-sm" onclick="cancelOrder('${o.id}')"><i class="fas fa-times"></i> إلغاء</button>` : ''}
-        </div>
-      </div>
-    `).join('');
-  }
-
-  function filterOrders() {
-    const filter = document.getElementById('orderFilter').value;
-    if (filter === 'all') renderOrders(userOrders);
-    else renderOrders(userOrders.filter(o => o.status === filter));
-  }
-
-  function viewOrder(id) {
-    const o = userOrders.find(x => x.id === id);
-    if (!o) return;
-    document.getElementById('orderModalBody').innerHTML = `
-      <div class="order-summary">
-        <div class="order-summary-item"><span>رقم الطلب</span><span dir="ltr" style="font-family:monospace">#${o.id?.slice(-8)?.toUpperCase()}</span></div>
-        <div class="order-summary-item"><span>الخدمة</span><span>${serviceNames[o.service] || o.service}</span></div>
-        <div class="order-summary-item"><span>الباقة</span><span>${{basic:'أساسية',standard:'قياسية',premium:'متقدمة'}[o.package] || o.package}</span></div>
-        <div class="order-summary-item"><span>حالة الطلب</span><span>${getStatusBadge(o.status)}</span></div>
-        <div class="order-summary-item"><span>حالة الدفع</span><span>${getStatusBadge(o.payment_status)}</span></div>
-        <div class="order-summary-item"><span>تاريخ الطلب</span><span>${formatDate(o.created_at)}</span></div>
-        <div class="order-summary-item"><span>السعر</span><span style="font-weight:700;color:var(--accent)">$${o.price || 0}</span></div>
-      </div>
-      ${o.description ? `<div style="margin-top:20px"><h4 style="font-size:0.9rem;color:var(--gray-500);margin-bottom:8px">وصف المشروع:</h4><p style="font-size:0.9rem;color:var(--gray-700);background:var(--gray-50);padding:14px;border-radius:var(--radius-md)">${o.description}</p></div>` : ''}
-      ${o.notes ? `<div style="margin-top:16px"><h4 style="font-size:0.9rem;color:var(--gray-500);margin-bottom:8px">ملاحظات:</h4><p style="font-size:0.9rem;color:var(--gray-700);background:var(--gray-50);padding:14px;border-radius:var(--radius-md)">${o.notes}</p></div>` : ''}
-    `;
-    document.getElementById('orderModal').classList.add('show');
-  }
-
-  function payOrder(id, price) {
-    initiatePayPal(Number(price), 'USD', id, window.location.href + '?paid=' + id);
-  }
-
-  async function cancelOrder(id) {
-    if (!confirm('هل أنت متأكد من إلغاء هذا الطلب؟')) return;
-    try {
-      await API.patch('orders', id, { status: 'cancelled' });
-      showToast('تم إلغاء الطلب', 'success');
-      loadOrders();
-    } catch(e) { showToast('حدث خطأ', 'danger'); }
-  }
-
-  async function saveProfile(e) {
-    e.preventDefault();
-    const name  = document.getElementById('editName').value.trim();
-    const email = document.getElementById('editEmail').value.trim();
-    const phone = document.getElementById('editPhone').value.trim();
-    const title = document.getElementById('editTitle').value.trim();
-    const bio   = document.getElementById('editBio').value.trim();
-
-    const el = document.getElementById('profileAlert');
-    try {
-      if (user.id && user.id !== 'admin-001') {
-        await API.patch('users', user.id, { name, email, phone, title, bio });
-      }
-      // Update session
-      const updated = { ...user, name, email, phone };
-      setCurrentUser(updated);
-      document.getElementById('profileName').textContent  = name;
-      document.getElementById('profileEmail').textContent = email;
-      document.getElementById('profileAvatar').textContent = name.charAt(0).toUpperCase();
-
-      el.className = 'alert alert-success';
-      el.innerHTML = '<i class="fas fa-check-circle"></i> تم حفظ التغييرات بنجاح!';
-      setTimeout(() => el.className = 'hidden', 3000);
-      showToast('تم حفظ الملف الشخصي', 'success');
-    } catch(e) {
-      el.className = 'alert alert-danger';
-      el.innerHTML = '<i class="fas fa-times-circle"></i> حدث خطأ أثناء الحفظ';
-    }
-  }
-
-  async function changePassword(e) {
-    e.preventDefault();
-    const current = document.getElementById('currentPass').value;
-    const newP    = document.getElementById('newPass').value;
-    const confirm = document.getElementById('confirmPass').value;
-    const el = document.getElementById('securityAlert');
-
-    if (newP !== confirm) {
-      el.className = 'alert alert-danger';
-      el.innerHTML = '<i class="fas fa-times-circle"></i> كلمتا المرور الجديدتان غير متطابقتين';
-      return;
-    }
-    if (newP.length < 6) {
-      el.className = 'alert alert-danger';
-      el.innerHTML = '<i class="fas fa-times-circle"></i> كلمة المرور يجب أن تكون 6 أحرف على الأقل';
-      return;
-    }
-
-    try {
-      if (user.id && user.id !== 'admin-001') {
-        // Verify current password
-        const res  = await fetch(`tables/users/${user.id}`);
-        const data = await res.json();
-        if (data.password_hash !== btoa(current)) {
-          el.className = 'alert alert-danger';
-          el.innerHTML = '<i class="fas fa-times-circle"></i> كلمة المرور الحالية غير صحيحة';
-          return;
+        
+        async function loadStats() {
+            const response = await fetch(`${API_URL}/stats`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const stats = await response.json();
+            document.getElementById('total-orders').textContent = stats.totalOrders;
+            document.getElementById('pending-orders').textContent = stats.pendingOrders;
+            document.getElementById('total-contacts').textContent = stats.totalContacts;
         }
-        await API.patch('users', user.id, { password_hash: btoa(newP) });
-      }
-      el.className = 'alert alert-success';
-      el.innerHTML = '<i class="fas fa-check-circle"></i> تم تغيير كلمة المرور بنجاح!';
-      e.target.reset();
-      setTimeout(() => el.className = 'hidden', 3000);
-    } catch(err) {
-      el.className = 'alert alert-danger';
-      el.innerHTML = '<i class="fas fa-times-circle"></i> حدث خطأ أثناء تغيير كلمة المرور';
-    }
-  }
-
-  function confirmDeleteAccount() {
-    if (confirm('⚠️ هل أنت متأكد من حذف حسابك نهائياً؟ هذا الإجراء لا يمكن التراجع عنه!')) {
-      showToast('طلب حذف الحساب أُرسل لفريق الدعم', 'info');
-    }
-  }
-
-  function togglePassField(id, btn) {
-    const input = document.getElementById(id);
-    const isText = input.type === 'text';
-    input.type = isText ? 'password' : 'text';
-    btn.innerHTML = `<i class="fas ${isText ? 'fa-eye' : 'fa-eye-slash'}"></i>`;
-  }
-
-  function loadProfile() {
-    document.getElementById('editName').value  = user.name;
-    document.getElementById('editEmail').value = user.email;
-    document.getElementById('editPhone').value = user.phone || '';
-  }
-
-  // Check payment return
-  const urlP = new URLSearchParams(window.location.search);
-  if (urlP.get('paid')) {
-    API.patch('orders', urlP.get('paid'), { payment_status: 'paid' }).then(() => {
-      showToast('✅ تم الدفع بنجاح!', 'success');
-    });
-  }
-
-  document.getElementById('orderModal').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('show');
-  });
-
-  document.addEventListener('DOMContentLoaded', init);
-</script>
+        
+        async function loadOrders() {
+            const response = await fetch(`${API_URL}/orders`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const orders = await response.json();
+            const tbody = document.getElementById('orders-table');
+            tbody.innerHTML = orders.map(order => `
+                <tr style="border-bottom:1px solid #ddd;">
+                    <td style="padding:12px;">${order.name}</td>
+                    <td style="padding:12px;">${order.phone}</td>
+                    <td style="padding:12px;">${order.serviceType}</td>
+                    <td style="padding:12px;">${order.status}</td>
+                    <td style="padding:12px;">${new Date(order.date).toLocaleDateString()}</td>
+                </tr>
+            `).join('');
+        }
+        
+        loadStats();
+        loadOrders();
+    </script>
+    <script src="js/app.js"></script>
 </body>
 </html>
